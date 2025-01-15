@@ -45,7 +45,7 @@ export default function flatfileEventListener(listener: FlatfileListener) {
       workbooks: [
         {
           name: "Individual Contacts Workbook",
-          sheets: [contactIndSheet],
+          sheets: [contactIndSheet,donationIndSheet ],
           actions: [
             {
               operation: "downloadWorkbook",
@@ -79,25 +79,7 @@ export default function flatfileEventListener(listener: FlatfileListener) {
             },
           ],
         },
-        {
-          name: "Individual Donations Workbook",
-          sheets: [donationIndSheet],
-          
-          actions: [
-            {
-              operation: "downloadWorkbook",
-              label: "Download All Donations",
-              description: "Downloads all Individual Donations",
-              primary: true,
-            },
-            {
-              operation: "downloadInvalid",
-              label: "Download Invalid Rows",
-              description: "Downloads only invalid Individual Donations",
-              primary: false,
-            },
-          ],
-        },
+       
         {
           name: "Organization Donations Workbook",
           sheets: [donationOrgSheet],
@@ -419,11 +401,14 @@ let uniqueCombinations = new Set();
         const validPaymentMethods = [
         'ach', 'cash', 'cash_app','cash app', 'check', 'credit_card', 'credit card','direct', 'gift_card', 'gift card','givecard', 'in_kind', 'in kind','invoice', 'match', 'other', 'paypal', 'payroll', 'square', 'venmo', 'zelle'
         ];
+        
+
+        
 
       
 
         // Validate name fields
-        if (isBlank(d_firstName) && isBlank(d_fullName)) {
+        if (isBlank(d_firstName)&& (d_fullName) ) {
           if (!isBlank(d_lastName) && d_lastName.toLowerCase() !== 'null') {
             d_firstName = d_lastName;
             d_lastName = '';
@@ -437,6 +422,10 @@ let uniqueCombinations = new Set();
           record.set('d_firstName', d_firstName === 'null' ? '' : d_firstName);
           record.set('d_lastName', d_lastName === 'null' ? '' : d_lastName);
         }
+
+    
+
+       
 
       
         // Validate email fields

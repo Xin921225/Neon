@@ -126,8 +126,14 @@ export const donationIndSheet: Flatfile.SheetConfig = {
 
         {
             key: "d_fullName",
-            type: "string",
+            type: "reference",
             label: 'Full Name',
+            config:{
+                ref: "contactsIndLinked",
+                key: "externalId",
+                relationship :"has-one"
+    
+            }
         },
     
         {
