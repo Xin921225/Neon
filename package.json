@@ -1,0 +1,32 @@
+{
+  "name": "gettingstarted",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "flatfile develop typescript/index.ts",
+    "deploy": "flatfile deploy typescript/index.ts",
+    "create-workbook": "bash ./scripts/create-workbook.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@flatfile/api": "^1.8.9",
+    "@flatfile/listener": "^1.0.1",
+    "@flatfile/plugin-autocast": "^1.0.0",
+    "@flatfile/plugin-dedupe": "^1.1.4",
+    "@flatfile/plugin-export-workbook": "^0.3.1",
+    "@flatfile/plugin-record-hook": "^1.6.0",
+    "@flatfile/plugin-space-configure": "^0.5.2",
+    "@flatfile/plugin-xlsx-extractor": "^1.11.8",
+    "axios": "^1.5.0",
+    "email-validator": "^2.0.4",
+    "flatfile": "^3.5.9",
+    "libphonenumber-js": "^1.11.4",
+    "moment": "^2.30.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.0"
+  }
+}
