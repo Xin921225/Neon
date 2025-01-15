@@ -115,9 +115,15 @@ export const donationIndSheet: Flatfile.SheetConfig = {
 
         {
             key: "indexternalId",
-            type: "string",
+            type: "reference",
             label: 'Account ID',
-            description: 'The Account ID of this contact from your Neon.',
+            config:{
+                ref: "contactsIndLinked",
+                key: "externalId",
+                relationship :"has-one"
+    
+            },
+        
             constraints: [{
                 type: "required"
             }]
@@ -126,14 +132,9 @@ export const donationIndSheet: Flatfile.SheetConfig = {
 
         {
             key: "d_fullName",
-            type: "reference",
+            type: "string",
             label: 'Full Name',
-            config:{
-                ref: "contactsIndLinked",
-                key: "externalId",
-                relationship :"has-one"
-    
-            }
+            
         },
     
         {

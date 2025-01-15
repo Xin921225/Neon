@@ -26,7 +26,7 @@ import { state, countries } from "./hooks/values";
 import { CountryCode } from 'libphonenumber-js';
 import {
   invalidEmail, noName, countryAlert, usaStateAlert, usaZipAlert, canadaProvAlert, canadaZipAlert, invalidPhoneNumber, invalidDateFormat, invalidPhoneFormat, USA,
-  validateEmail, is_validPhoneNumber, validateUSZipCode, isValidDate, validatePhoneFormat, isCountryCode, isBlank, convertDateToISO, validateAddress
+  validateEmail, is_validPhoneNumber, validateUSZipCode, isValidDate, validatePhoneFormat, isCountryCode, isBlank, convertDateToISO, validateAddress,vlookup
 } from "./hooks/validation";
 
 
@@ -44,60 +44,44 @@ export default function flatfileEventListener(listener: FlatfileListener) {
     configureSpace({
       workbooks: [
         {
-          name: "Individual Contacts Workbook",
+          name: "Individual Workbook",
           sheets: [contactIndSheet,donationIndSheet ],
           actions: [
             {
               operation: "downloadWorkbook",
-              label: "Download All Contacts",
-              description: "Downloads all Individual Contacts",
+              label: "Download All Rows",
+              description: "Downloads all Individual Contacts/Donations",
               primary: true,
+              
             },
             {
               operation: "downloadInvalid",
               label: "Download Invalid Rows",
-              description: "Downloads only invalid Individual Contacts",
+              description: "Downloads only invalid Individual Contacts/Donations",
               primary: false,
             },
           ],
         },
         {
-          name: "Organization Contacts Workbook",
-          sheets: [contactOrgSheet],
+          name: "Organization Workbook",
+          sheets: [contactOrgSheet,donationOrgSheet],
           actions: [
             {
               operation: "downloadWorkbook",
-              label: "Download All Contacts",
-              description: "Downloads all Organization Contacts",
+              label: "Download All Rows",
+              description: "Downloads all Organization Contacts/Donations",
               primary: true,
             },
             {
               operation: "downloadInvalid",
               label: "Download Invalid Rows",
-              description: "Downloads only invalid Organization Contacts",
+              description: "Downloads only invalid Organization Contacts/Donations",
               primary: false,
             },
           ],
         },
        
-        {
-          name: "Organization Donations Workbook",
-          sheets: [donationOrgSheet],
-          actions: [
-            {
-              operation: "downloadWorkbook",
-              label: "Download All Donations",
-              description: "Downloads all Organization Donations",
-              primary: true,
-            },
-            {
-              operation: "downloadInvalid",
-              label: "Download Invalid Rows",
-              description: "Downloads only invalid Organization Donations",
-              primary: false,
-            },
-          ],
-        },
+      
         
       ],
     })
@@ -383,7 +367,7 @@ let uniqueCombinations = new Set();
 
 
       records.map((record) => {
-        let d_fullName = `${record.get('d_fullName')}`.trim();
+        
         let d_firstName = `${record.get('d_firstName')}`.trim();
         let d_lastName = `${record.get('d_lastName')}`.trim();
         const indexternalId = `${record.get('indexternalId')}`.trim();
@@ -403,12 +387,12 @@ let uniqueCombinations = new Set();
         ];
         
 
-        
+        vlookup(record, "indexternalId", "fullName", "d_fullName");
 
-      
+    
 
         // Validate name fields
-        if (isBlank(d_firstName)&& (d_fullName) ) {
+        if (isBlank(d_firstName) ) {
           if (!isBlank(d_lastName) && d_lastName.toLowerCase() !== 'null') {
             d_firstName = d_lastName;
             d_lastName = '';
@@ -416,7 +400,7 @@ let uniqueCombinations = new Set();
             d_firstName = d_personalEmail;
             d_lastName = ''; // Ensure last name is blank
           } else {
-            record.addError('d_fullName', noName);
+            
             record.addError('d_firstName', noName);
           }
           record.set('d_firstName', d_firstName === 'null' ? '' : d_firstName);
@@ -515,6 +499,8 @@ let uniqueCombinations = new Set();
 
 
     //Organization
+
+    vlookup(record, "orgexternalId", "organizationName", "d_organizationName");
 
         // Validate org name field
         if (isBlank(orgName)) {

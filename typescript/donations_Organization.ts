@@ -111,9 +111,17 @@ export const donationOrgSheet: Flatfile.SheetConfig = {
 
         {
             key: "orgexternalId",
-            type: "string",
+            type: "reference",
             label: 'Account ID',
             description: 'The Account ID of this contact from your Neon.',
+            config:{
+                ref: "contactsOrgLinked",
+                key: "OrganizationExternalId",
+                relationship :"has-one"
+    
+            },
+
+
             constraints: [{
                 type: "required"
             }]

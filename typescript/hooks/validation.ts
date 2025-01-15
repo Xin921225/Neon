@@ -1,7 +1,9 @@
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import * as moment from 'moment';
 import { state, provinces,countries } from './values';
+import { isNil } from 'ramda';
 
+const isNotNil = (value) => !isNil(value);
 export const invalidEmail = 'Email must contain "@" and a valid domain,Special characters are not allowed.';
 export const noName = 'There must be either a Full or First Name.';
 export const countryAlert = 'The country must be valid.';
@@ -17,6 +19,29 @@ export const USA = ['US', 'United States'];
 export const Canada = ['CA', 'Canada'];
 
 
+export const vlookup = (
+  record,
+  referenceFieldKey,
+  lookupFieldKey,
+  targetFieldKey
+) => {
+  console.log("Initial Record: " + JSON.stringify(record));
+  const links = record.getLinks(referenceFieldKey);
+  console.log("Linked Records: " + JSON.stringify(links));
+  const lookupValue = links?.[0]?.[lookupFieldKey];
+  console.log(
+    "Reference Field Key: " +
+      referenceFieldKey +
+      " : " +
+      "Lookup Value: " +
+      lookupValue
+  );
+
+  if (isNotNil(lookupValue)) {
+    record.set(targetFieldKey, lookupValue);
+
+  }
+};
 
 export function validateEmail(email: string): boolean {
   const validEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
