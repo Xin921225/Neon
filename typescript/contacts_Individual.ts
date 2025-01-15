@@ -9,12 +9,20 @@ export const contactIndSheet: Flatfile.SheetConfig = {
     {
         key: "externalId",
         type: "string",
-        label: 'DONOR_ID',
-        description: 'The Donor ID of this contact from Donor Perfect.',
+        label: 'Account ID',
+        description: 'The Account ID of this contact from Neon.',
         constraints: [{
             type: "required"
         }]
     },
+
+    {
+        key: "accounttype",
+        type: "string",
+        label: 'Account Type',
+        description: 'Account Type = Individual / Organization.',
+    },
+
 
     {
         key: "fullName",
@@ -41,13 +49,20 @@ export const contactIndSheet: Flatfile.SheetConfig = {
         key: "prefix",
         type: "string",
         label: 'Prefix',
-        description: 'The title of this contact from Donor Perfect.',
+        description: 'The title of this contact from Neon.',
     },
     {
         key: "nameSuffix",
         type: "string",
         label: 'Suffix',
         description: 'Examples: Jr., Sr., Esq., etc.',
+    },
+
+    {
+        key: "house hold Name",
+        type: "string",
+        label: 'Household Name',
+        
     },
 
    
@@ -65,7 +80,7 @@ export const contactIndSheet: Flatfile.SheetConfig = {
         key: "workEmail",
         type: "string",
         label: 'Work Email',
-        description: 'When EMAIL_TYPE_DESCR = work, contain @ and . in the correct places. No space allowed.',
+        description: 'Must contain @ and . in the correct places. No space allowed.',
     },
     {
         key: "secondaryEmail",
@@ -91,13 +106,6 @@ export const contactIndSheet: Flatfile.SheetConfig = {
         key: "workPhone",
         type: "string",
         label: 'Work Phone',
-        description: 'Only numbers, ")", "(", and "-" allowed.',
-    },
-
-    {
-        key: "faxPhone",
-        type: "string",
-        label: 'Fax Phone',
         description: 'Only numbers, ")", "(", and "-" allowed.',
     },
 
@@ -140,7 +148,7 @@ export const contactIndSheet: Flatfile.SheetConfig = {
         key: "workAddressLine1",
         type: "string",
         label: 'Work Address',
-        description: 'When ADDRESS_TYPE_DESCR = work/business, contain @ and . in the correct places. No space allowed.',
+  
     },
     {
         key: "workAddressLine2",
@@ -171,173 +179,45 @@ export const contactIndSheet: Flatfile.SheetConfig = {
   
 
     {
-        key: "employerName",
+        key: "companyName",
         type: "string",
         label: 'Employer',
+        description: 'When Account Type = Individual, Use Company Name as Employer.',
+
     },
+
+    {
+        key: "email opt out",
+        type: "string",
+        label: 'Email Opt Out',
+    },
+
     {
         key: "jobTitle",
         type: "string",
         label: 'Job Title',
-        description: 'The prof title of this contact from Donor Perfect.',
+        description: 'The prof title of this contact from Neon.',
     },
     {
         key: "informalGreeting",
         type: "string",
         label: 'Informal Greeting',
-        description: 'The salutation of this contact from Donor Perfect.',
+        description: 'The salutation of this contact from Neon.',
     },
 
     {
         key: "formalGreeting",
         type: "string",
         label: 'Formal Greeting',
-        description: 'The formal salutation of this contact from Donor Perfect.',
+        description: 'The formal salutation of this contact from Neon.',
     },
    
-   
-    
-    {
-        key: "dateOfBirth",
-        type: "date",
-        label: 'Date of Birth',
-    },
-    {
-        key: "deceased",
-        type: "enum",
-            label: 'Deceased',
-            description: 'Deceased = no, the contact is not deceased, = yes, is deceased',
-			 config: {
-                options: [
-                    {
-                        value: "N",
-                        label: "no"
-                    },
-					{
-                        value: "Y",
-                        label: "yes"
-                    }
-					
-                ]
-				}
-        },
-    {
-        key: "gender",
-        type: "string",
-        label: 'Gender',
-        description: 'M, F, Male, Female, or any text.'
-    },
     {
         key: "note",
         type: "string",
         label: 'User Notes',
-        description: 'The Narrative of this contact from Donor Perfect.',
+        description: 'The Narrative of this contact from Neon.',
 
-    },
-    {
-        key: "orgrec",
-        type: "string",
-        label: 'ORG_REC',
-        description: 'The value = Y is regared as organization, = N is regared as Individual.',
-        constraints: [{
-            type: "required"
-        }]
-
-    },
-
-
-    {
-        key: "optline",
-        type: "string",
-        label: 'opt_line'
-    },
-
-    {
-        key: "donortype",
-        type: "string",
-        label: 'DONOR_TYPE_DESCR'
-    },
-
-
-
-    {
-        key: "Addresstype",
-        type: "string",
-        label: 'ADDRESS_TYPE_DESCR'
-    },
-
-    {
-        key: "Emailtype",
-        type: "string",
-        label: 'EMAIL_TYPE_DESCR'
-    },
-
-    {
-        key: "noemail",
-        type: "string",
-        label: 'No_Email'
-    },
-
-    {
-        key: "noemailreason",
-        type: "string",
-        label: 'NO_EMAIL_REASON_DESCR'
-    },
-
-    {
-        key: "emailstatus",
-        type: "string",
-        label: 'EMAIL_STATUS_DESCR'
-    },
-
-
-    {
-        key: "nomail",
-        type: "string",
-        label: 'No Mail'
-    },
-
-    {
-        key: "nomailreason",
-        type: "string",
-        label: 'NOMAIL_REASON_DESCR'
-    },
-
-
-    {
-        key: "mailstatus",
-        type: "string",
-        label: 'MAIL_STATUS_DESCR'
-    },
-
-    {
-        key: "nocall",
-        type: "string",
-        label: 'No Call'
-    },
-
-    {
-        key: "nocallreason",
-        type: "string",
-        label: 'CALL_REASON_DESCR'
-    },
-
-    {
-        key: "call status",
-        type: "string",
-        label: 'CALL_STATUS_DESCR'
-    },
-
-    {
-        key: "spouse",
-        type: "string",
-        label: 'Spouse'
-    },
-
-    {
-        key: "web",
-        type: "string",
-        label: 'Website'
     },
 
 

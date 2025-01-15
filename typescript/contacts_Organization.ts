@@ -5,23 +5,27 @@ export const contactOrgSheet: Flatfile.SheetConfig = {
   slug: "contactsOrgLinked",
   allowAdditionalFields: true,
   fields: [
-
-
     {
         key: "OrganizationExternalId",
         type: "string",
-        label: 'DONOR_ID',
-        description: 'The Donor ID of this contact from Donor Perfect.',
+        label: 'Account ID',
+        description: 'The Account ID of this contact from Neon.',
         constraints: [{
             type: "required"
         }]
+    },
+    {
+        key: "accounttype",
+        type: "string",
+        label: 'Account Type',
+        description: 'Account Type = Individual / Organization.',
     },
 
     {
         key: "organizationName",
         type: "string",
         label: "Organization Name",
-        description: 'The combination of "prefix, first name, middle name, last name and suffix" from Donor Perfect.',
+        description: 'When Account Type= Organization, Company Name is used for Organization Name.',
         constraints: [{
             type: "required"
         }]
@@ -76,22 +80,23 @@ export const contactOrgSheet: Flatfile.SheetConfig = {
         key: "organization_Phone",
         type: "string",
         label: 'Organization Phone',
-        description: 'Use Business Phone as Organization phone, Only numbers, ")", "(", and "-" allowed.',
+        description: 'Only numbers, ")", "(", and "-" allowed.',
+    },
+
+    {
+        key: "email opt out",
+        type: "string",
+        label: 'Email Opt Out',
     },
         
     {
         key: "organization_note",
         type: "string",
         label: 'Organization User Notes',
-        description: 'The Narrative of this contact from Donor Perfect.',
+        description: 'The Narrative of this contact from Neon.',
     },
 
-    {
-        key: "organization_website",
-        type: "string",
-        label: 'Organization Website'
-    },      
-
+    
     {
         key: "org_mobilePhone",
         type: "string",
@@ -105,100 +110,8 @@ export const contactOrgSheet: Flatfile.SheetConfig = {
         description: `Use home phone, Only numbers, ")", "(", and "-" allowed.`,
      },
     
-    
-    {
-        key: "orgrec",
-        type: "string",
-        label: 'ORG_REC',
-        description: 'The value = Y is regared as organization, = N is regared as Individual.',
-        constraints: [{
-            type: "required"
-        }]
+     
 
-    },
-
-
-    {
-        key: "optline",
-        type: "string",
-        label: 'opt_line'
-    },
-
-    {
-        key: "donortype",
-        type: "string",
-        label: 'DONOR_TYPE_DESCR'
-    },
-
-
-
-    {
-        key: "Addresstype",
-        type: "string",
-        label: 'ADDRESS_TYPE_DESCR'
-    },
-
-    {
-        key: "Emailtype",
-        type: "string",
-        label: 'EMAIL_TYPE_DESCR'
-    },
-
-    {
-        key: "noemail",
-        type: "string",
-        label: 'No_Email'
-    },
-
-    {
-        key: "noemailreason",
-        type: "string",
-        label: 'NO_EMAIL_REASON_DESCR'
-    },
-
-    {
-        key: "emailstatus",
-        type: "string",
-        label: 'EMAIL_STATUS_DESCR'
-    },
-
-
-    {
-        key: "nomail",
-        type: "string",
-        label: 'No Mail'
-    },
-
-    {
-        key: "nomailreason",
-        type: "string",
-        label: 'NOMAIL_REASON_DESCR'
-    },
-
-
-    {
-        key: "mailstatus",
-        type: "string",
-        label: 'MAIL_STATUS_DESCR'
-    },
-
-    {
-        key: "nocall",
-        type: "string",
-        label: 'No Call'
-    },
-
-    {
-        key: "nocallreason",
-        type: "string",
-        label: 'CALL_REASON_DESCR'
-    },
-
-    {
-        key: "call status",
-        type: "string",
-        label: 'CALL_STATUS_DESCR'
-    },
     {
         key: "orgwarning",
         type: "string",
