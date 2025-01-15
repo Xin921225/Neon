@@ -367,7 +367,7 @@ let uniqueCombinations = new Set();
 
 
       records.map((record) => {
-        
+        let d_fullName = `${record.get('d_fullName')}`.trim();
         let d_firstName = `${record.get('d_firstName')}`.trim();
         let d_lastName = `${record.get('d_lastName')}`.trim();
         const indexternalId = `${record.get('indexternalId')}`.trim();
@@ -392,17 +392,14 @@ let uniqueCombinations = new Set();
     
 
         // Validate name fields
-        if (isBlank(d_firstName) ) {
+        if (isBlank(d_firstName) && isBlank(d_fullName) ) {
           if (!isBlank(d_lastName) && d_lastName.toLowerCase() !== 'null') {
             d_firstName = d_lastName;
             d_lastName = '';
           } else if (!isBlank(d_personalEmail)) {
             d_firstName = d_personalEmail;
             d_lastName = ''; // Ensure last name is blank
-          } else {
-            
-            record.addError('d_firstName', noName);
-          }
+          } 
           record.set('d_firstName', d_firstName === 'null' ? '' : d_firstName);
           record.set('d_lastName', d_lastName === 'null' ? '' : d_lastName);
         }
