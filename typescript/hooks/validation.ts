@@ -201,8 +201,6 @@ export function validatePhoneFormat(phoneNumber: string): boolean {
 
 
 
-
-
 // Validate country code by checking against valid countries list
 export function isCountryCode(value: string): boolean {
   // Make the comparison case-insensitive

@@ -102,7 +102,8 @@ export default function flatfileEventListener(listener: FlatfileListener) {
         const addressCity = `${record.get('addressCity')}`.trim();
         const addressStateProvince = `${record.get('addressStateProvince')}`.trim();
         const addressCountry = `${record.get('addressCountry')}`.trim();
-        const addressPostalCode = `${record.get('addressPostalCode')}`.trim();
+        let addressPostalCode = `${record.get('addressPostalCode')}`.trim();
+        const addressPostalCodeSuffix = `${record.get('addressPostalCodeSuffix')}`.trim();
         const personalEmail = `${record.get('personalEmail')}`.trim();
         const secondaryEmail = `${record.get('secondaryEmail')}`.trim();
         const workEmail = `${record.get('workEmail')}`.trim();
@@ -117,9 +118,12 @@ export default function flatfileEventListener(listener: FlatfileListener) {
         const workAddressCity = `${record.get('workAddressCity')}`.trim();
         const workAddressStateProvince = `${record.get('workAddressStateProvince')}`.trim();
         const workAddressCountry = `${record.get('workAddressCountry')}`.trim();
-        const workAddressPostalCode = `${record.get('workAddressPostalCode')}`.trim();
+        let workAddressPostalCode = `${record.get('workAddressPostalCode')}`.trim();
+        const workAddressPostalCodeSuffix = `${record.get('workAddressPostalCodeSuffix')}`.trim();
         const Addresstype = `${record.get('Addresstype')}`.trim();
         const warning = `${record.get('warning')}`.trim();
+
+      
         
          // Move address to work address if Addresstype contains "work" or "business"
          if (Addresstype.toLowerCase().includes('work') || Addresstype.toLowerCase().includes('business')) {
@@ -242,6 +246,18 @@ export default function flatfileEventListener(listener: FlatfileListener) {
         }
 
         // Validate personal address fields
+      
+        if (!isBlank(addressPostalCodeSuffix)) {
+          // Combine addressPostalCode and addressPostalCodeSuffix
+          addressPostalCode = `${addressPostalCode}-${addressPostalCodeSuffix}`;
+        }
+
+        if (isBlank(addressPostalCode)) {
+          addressPostalCode = ''; // Set to empty string if zip code is blank or null
+        }
+        
+        record.set('addressPostalCode', addressPostalCode);
+        
         const personalAddressErrors = validateAddress(addressCountry, addressStateProvince, addressPostalCode);
         personalAddressErrors.forEach(error => {
           if (error.includes('state')) {
@@ -254,6 +270,19 @@ export default function flatfileEventListener(listener: FlatfileListener) {
         });
 
         // Validate work address fields using the same validation logic
+
+        if (!isBlank(workAddressPostalCodeSuffix)) {
+          // Combine workAddressPostalCode and workAddressPostalCodeSuffix
+          workAddressPostalCode = `${workAddressPostalCode}-${workAddressPostalCodeSuffix}`;
+        }
+        
+        if (isBlank(workAddressPostalCode)) {
+          workAddressPostalCode = ''; // Set to empty string if zip code is blank or null
+        }
+        
+        record.set('workAddressPostalCode', workAddressPostalCode);
+
+        
         const workAddressErrors = validateAddress(workAddressCountry, workAddressStateProvince, workAddressPostalCode);
         workAddressErrors.forEach(error => {
           if (error.includes('state')) {
