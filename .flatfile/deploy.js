@@ -139763,12 +139763,32 @@ function convertDateToISO(dateString) {
 function isBlank(value) {
     return value === null || value === undefined || value.trim() === '' || value.trim() === 'null';
 }
+function normalizePhoneNumber(phoneNumber) {
+    // Remove all non-numeric characters (including spaces, dashes, parentheses)
+    return phoneNumber.replace(/[^\d+]/g, '').trim();
+}
 function is_validPhoneNumber(phoneNumber, country = 'US') {
     const parsedNumber = exports_parsePhoneNumber_parsePhoneNumber(phoneNumber, country);
-    return parsedNumber ? parsedNumber.isValid() : false;
+    if (!parsedNumber) {
+        return false; // Parsing failed, invalid number
+    }
+    // Check if the number is valid and its length is reasonable for the given country
+    const normalizedLength = parsedNumber.number.length;
+    // Check for numbers with a reasonable length range (10 to 15 digits)
+    if (normalizedLength < 10 || normalizedLength > 15) {
+        return false;
+    }
+    return parsedNumber.isValid();
 }
 function validatePhoneFormat(phoneNumber) {
-    const phoneFormat = /^(\+?\d{1,4}[\s.-]?)?(\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}(?:\s?(?:ext|x)\.?\s?\d+)?$/;
+    // Match phone numbers with a minimum of 10 digits and maximum of 15 digits, allowing for optional formatting characters
+    const phoneFormat = /^\s*(\+?\d{1,4})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}(\s?(ext|x)\.?\s?\d+)?\s*$/;
+    // Remove all non-digit characters
+    const cleanedNumber = phoneNumber.replace(/[^\d+]/g, '');
+    // Ensure the phone number has a reasonable length (10 to 15 digits for international formats)
+    if (cleanedNumber.length < 10 || cleanedNumber.length > 15) {
+        return false; // Too short or too long to be a valid number
+    }
     return phoneFormat.test(phoneNumber);
 }
 // Validate country code by checking against valid countries list
@@ -139980,34 +140000,38 @@ function flatfileEventListener(listener) {
             }
             // Validate phone fields
             if (!isBlank(mobilePhone)) {
-                if (!validatePhoneFormat(mobilePhone)) {
+                const normalizedMobilePhone = normalizePhoneNumber(mobilePhone);
+                if (!validatePhoneFormat(normalizedMobilePhone)) {
                     record.addError('mobilePhone', invalidPhoneFormat);
                 }
-                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(mobilePhone, addressCountry)) {
+                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedMobilePhone, addressCountry)) {
                     record.addError('mobilePhone', invalidPhoneNumber);
                 }
             }
             if (!isBlank(workPhone)) {
-                if (!validatePhoneFormat(workPhone)) {
+                const normalizedWorkPhone = normalizePhoneNumber(workPhone);
+                if (!validatePhoneFormat(normalizedWorkPhone)) {
                     record.addError('workPhone', invalidPhoneFormat);
                 }
-                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(workPhone, addressCountry)) {
+                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedWorkPhone, addressCountry)) {
                     record.addError('workPhone', invalidPhoneNumber);
                 }
             }
             if (!isBlank(homePhone)) {
-                if (!validatePhoneFormat(homePhone)) {
+                const normalizedHomePhone = normalizePhoneNumber(homePhone);
+                if (!validatePhoneFormat(normalizedHomePhone)) {
                     record.addError('homePhone', invalidPhoneFormat);
                 }
-                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(homePhone, addressCountry)) {
+                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedHomePhone, addressCountry)) {
                     record.addError('homePhone', invalidPhoneNumber);
                 }
             }
             if (!isBlank(faxPhone)) {
-                if (!validatePhoneFormat(faxPhone)) {
+                const normalizedFaxPhone = normalizePhoneNumber(faxPhone);
+                if (!validatePhoneFormat(normalizedFaxPhone)) {
                     record.addError('faxPhone', invalidPhoneFormat);
                 }
-                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(faxPhone, addressCountry)) {
+                else if (validation_isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedFaxPhone, addressCountry)) {
                     record.addError('faxPhone', invalidPhoneNumber);
                 }
             }

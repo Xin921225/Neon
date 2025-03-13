@@ -26,7 +26,7 @@ import { state, countries } from "./hooks/values";
 import { CountryCode } from 'libphonenumber-js';
 import {
   invalidEmail, noName, countryAlert, usaStateAlert, usaZipAlert, canadaProvAlert, canadaZipAlert, invalidPhoneNumber, invalidDateFormat, invalidPhoneFormat, USA,
-  validateEmail, is_validPhoneNumber, validateUSZipCode, isValidDate, validatePhoneFormat, isCountryCode, isBlank, convertDateToISO, validateAddress,vlookup
+  validateEmail, is_validPhoneNumber,normalizePhoneNumber, validateUSZipCode, isValidDate, validatePhoneFormat, isCountryCode, isBlank, convertDateToISO, validateAddress,vlookup
 } from "./hooks/validation";
 
 
@@ -196,33 +196,37 @@ export default function flatfileEventListener(listener: FlatfileListener) {
 
         // Validate phone fields
         if (!isBlank(mobilePhone)) {
-          if (!validatePhoneFormat(mobilePhone)) {
+          const normalizedMobilePhone = normalizePhoneNumber(mobilePhone);
+          if (!validatePhoneFormat(normalizedMobilePhone)) {
             record.addError('mobilePhone', invalidPhoneFormat);
-          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(mobilePhone, addressCountry as CountryCode)) {
+          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedMobilePhone, addressCountry as CountryCode)) {
             record.addError('mobilePhone', invalidPhoneNumber);
           }
         }
 
         if (!isBlank(workPhone)) {
-          if (!validatePhoneFormat(workPhone)) {
+          const normalizedWorkPhone = normalizePhoneNumber(workPhone);
+          if (!validatePhoneFormat(normalizedWorkPhone)) {
             record.addError('workPhone', invalidPhoneFormat);
-          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(workPhone, addressCountry as CountryCode)) {
+          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedWorkPhone, addressCountry as CountryCode)) {
             record.addError('workPhone', invalidPhoneNumber);
           }
         }
 
         if (!isBlank(homePhone)) {
-          if (!validatePhoneFormat(homePhone)) {
+          const normalizedHomePhone = normalizePhoneNumber(homePhone);
+          if (!validatePhoneFormat(normalizedHomePhone)) {
             record.addError('homePhone', invalidPhoneFormat);
-          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(homePhone, addressCountry as CountryCode)) {
+          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedHomePhone, addressCountry as CountryCode)) {
             record.addError('homePhone', invalidPhoneNumber);
           }
         }
 
         if (!isBlank(faxPhone)) {
-          if (!validatePhoneFormat(faxPhone)) {
+          const normalizedFaxPhone = normalizePhoneNumber(faxPhone);
+          if (!validatePhoneFormat(normalizedFaxPhone)) {
             record.addError('faxPhone', invalidPhoneFormat);
-          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(faxPhone, addressCountry as CountryCode)) {
+          } else if (isCountryCode(addressCountry) && !is_validPhoneNumber(normalizedFaxPhone, addressCountry as CountryCode)) {
             record.addError('faxPhone', invalidPhoneNumber);
           }
         }

@@ -159,18 +159,49 @@ export function isBlank(value: string | null | undefined): boolean {
   return value === null || value === undefined || value.trim() === '' || value.trim() === 'null';
 }
 
+export function normalizePhoneNumber(phoneNumber: string): string {
+  // Remove all non-numeric characters (including spaces, dashes, parentheses)
+  return phoneNumber.replace(/[^\d+]/g, '').trim();
+}
+
 
 export function is_validPhoneNumber(phoneNumber: string, country: CountryCode = 'US'): boolean {
   const parsedNumber = parsePhoneNumberFromString(phoneNumber, country);
-  return parsedNumber ? parsedNumber.isValid() : false;
+  if (!parsedNumber) {
+    return false; // Parsing failed, invalid number
+  }
+  
+  // Check if the number is valid and its length is reasonable for the given country
+  const normalizedLength = parsedNumber.number.length;
+  
+  // Check for numbers with a reasonable length range (10 to 15 digits)
+  if (normalizedLength < 10 || normalizedLength > 15) {
+    return false;
+  }
+
+  return parsedNumber.isValid();
 }
 
 
 
 export function validatePhoneFormat(phoneNumber: string): boolean {
-  const phoneFormat = /^(\+?\d{1,4}[\s.-]?)?(\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}(?:\s?(?:ext|x)\.?\s?\d+)?$/;
+  // Match phone numbers with a minimum of 10 digits and maximum of 15 digits, allowing for optional formatting characters
+  const phoneFormat = /^\s*(\+?\d{1,4})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}(\s?(ext|x)\.?\s?\d+)?\s*$/;
+  
+  // Remove all non-digit characters
+  const cleanedNumber = phoneNumber.replace(/[^\d+]/g, '');
+
+  // Ensure the phone number has a reasonable length (10 to 15 digits for international formats)
+  if (cleanedNumber.length < 10 || cleanedNumber.length > 15) {
+    return false; // Too short or too long to be a valid number
+  }
+
   return phoneFormat.test(phoneNumber);
 }
+
+
+
+
 
 // Validate country code by checking against valid countries list
 export function isCountryCode(value: string): boolean {
