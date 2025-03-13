@@ -137,7 +137,12 @@ export const donationOrgSheet: Flatfile.SheetConfig = {
             }]
         },
 
-
+        {
+            key: "organization_Email",
+            type: "string",
+            label: 'Organization Email',
+            description: 'All emails are regarded as organization email, Must contain @ and . in the correct places. No space allowed.',
+        },
         
         {
             key: "org_warning",

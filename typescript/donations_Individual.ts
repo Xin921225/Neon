@@ -153,7 +153,13 @@ export const donationIndSheet: Flatfile.SheetConfig = {
             label: 'Last Name',
         },
     
-        
+           
+        {
+            key: "d_personalEmail",
+            type: "string",
+            label: 'Personal Email',
+            description: 'Must contain @ and . in the correct places. No space allowed.',
+        },
 
         {
             key: "Purpose",

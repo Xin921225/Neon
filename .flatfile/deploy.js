@@ -135702,6 +135702,11 @@ const contactIndSheet = {
             label: 'Zip Code'
         },
         {
+            key: "addressPostalCodeSuffix",
+            type: "string",
+            label: 'Zip Code Suffix'
+        },
+        {
             key: "addressCountry",
             type: "string",
             label: 'Country',
@@ -135733,6 +135738,11 @@ const contactIndSheet = {
             label: 'Work Zip Code'
         },
         {
+            key: "workAddressPostalCodeSuffix",
+            type: "string",
+            label: 'Work Zip Code Suffix'
+        },
+        {
             key: "workAddressCountry",
             type: "string",
             label: 'Work Country',
@@ -135743,6 +135753,17 @@ const contactIndSheet = {
             type: "string",
             label: 'Employer',
             description: 'When Account Type = Individual, Use Company Name as Employer.',
+        },
+        {
+            key: "deceased",
+            type: "boolean",
+            label: 'deceased',
+            description: 'No and Yes (Ture and False) of whether the contact is deceased.',
+        },
+        {
+            key: "gender",
+            type: "string",
+            label: 'gender',
         },
         {
             key: "email opt out",
@@ -135821,6 +135842,11 @@ const contactOrgSheet = {
                     type: "unique"
                 }
             ],
+        },
+        {
+            key: "organization_website",
+            type: "string",
+            label: 'URL',
         },
         {
             key: "organization_addressLine1",
@@ -136024,6 +136050,12 @@ const donationIndSheet = {
             label: 'Last Name',
         },
         {
+            key: "d_personalEmail",
+            type: "string",
+            label: 'Personal Email',
+            description: 'Must contain @ and . in the correct places. No space allowed.',
+        },
+        {
             key: "Purpose",
             type: "string",
             label: 'Purpose',
@@ -136160,6 +136192,12 @@ const donationOrgSheet = {
             constraints: [{
                     type: "required"
                 }]
+        },
+        {
+            key: "organization_Email",
+            type: "string",
+            label: 'Organization Email',
+            description: 'All emails are regarded as organization email, Must contain @ and . in the correct places. No space allowed.',
         },
         {
             key: "org_warning",

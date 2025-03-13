@@ -136,6 +136,11 @@ export const contactIndSheet: Flatfile.SheetConfig = {
         type: "string",
         label: 'Zip Code'
     },
+    {
+        key: "addressPostalCodeSuffix",
+        type: "string",
+        label: 'Zip Code Suffix'
+    },
 
     {
         key: "addressCountry",
@@ -171,18 +176,37 @@ export const contactIndSheet: Flatfile.SheetConfig = {
         label: 'Work Zip Code'
     },
     {
+        key: "workAddressPostalCodeSuffix",
+        type: "string",
+        label: 'Work Zip Code Suffix'
+    },
+    {
         key: "workAddressCountry",
         type: "string",
         label: 'Work Country',
         description: 'Should be 2 character country code or country name spelled out.',
     },
   
-
     {
         key: "companyName",
         type: "string",
         label: 'Employer',
         description: 'When Account Type = Individual, Use Company Name as Employer.',
+
+    },
+
+    {
+        key: "deceased",
+        type: "boolean",
+        label: 'deceased',
+        description: 'No and Yes (True and False) of whether the contact is deceased.',
+
+    },
+    
+    {
+        key: "gender",
+        type: "string",
+        label: 'gender',
 
     },
 
