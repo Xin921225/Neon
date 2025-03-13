@@ -40,6 +40,11 @@ export const contactOrgSheet: Flatfile.SheetConfig = {
             {
                 type: "unique"
             }],
+    },    
+    {
+        key: "organization_website",
+        type: "string",
+        label: 'URL',
     },
     
     {
