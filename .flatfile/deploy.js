@@ -140107,6 +140107,14 @@ function flatfileEventListener(listener) {
                 }
             });
             // Validate work address fields using the same validation logic
+            if (!isBlank(workAddressPostalCodeSuffix)) {
+                // Combine workAddressPostalCode and workAddressPostalCodeSuffix
+                workAddressPostalCode = `${workAddressPostalCode}-${workAddressPostalCodeSuffix}`;
+            }
+            if (isBlank(workAddressPostalCode)) {
+                workAddressPostalCode = ''; // Set to empty string if zip code is blank or null
+            }
+            record.set('workAddressPostalCode', workAddressPostalCode);
             const workAddressErrors = validateAddress(workAddressCountry, workAddressStateProvince, workAddressPostalCode);
             workAddressErrors.forEach(error => {
                 if (error.includes('state')) {
@@ -140154,26 +140162,29 @@ function flatfileEventListener(listener) {
             }
             // Validate orgphone field
             if (!isBlank(orgPhone)) {
-                if (!validatePhoneFormat(orgPhone)) {
+                const normalizedOrgPhone = normalizePhoneNumber(orgPhone);
+                if (!validatePhoneFormat(normalizedOrgPhone)) {
                     record.addError('organization_Phone', invalidPhoneFormat);
                 }
-                else if (validation_isCountryCode(orgAddrCountry) && !is_validPhoneNumber(orgPhone, orgAddrCountry)) {
+                else if (validation_isCountryCode(orgAddrCountry) && !is_validPhoneNumber(normalizedOrgPhone, orgAddrCountry)) {
                     record.addError('organization_Phone', invalidPhoneNumber);
                 }
             }
             if (!isBlank(orgMobile)) {
-                if (!validatePhoneFormat(orgMobile)) {
+                const normalizedOrgMobile = normalizePhoneNumber(orgMobile);
+                if (!validatePhoneFormat(normalizedOrgMobile)) {
                     record.addError('organization_Phone', invalidPhoneFormat);
                 }
-                else if (validation_isCountryCode(orgAddrCountry) && !is_validPhoneNumber(orgMobile, orgAddrCountry)) {
+                else if (validation_isCountryCode(orgAddrCountry) && !is_validPhoneNumber(normalizedOrgMobile, orgAddrCountry)) {
                     record.addError('organization_Phone', invalidPhoneNumber);
                 }
             }
             if (!isBlank(orgHome)) {
-                if (!validatePhoneFormat(orgHome)) {
+                const normalizedOrgHome = normalizePhoneNumber(orgHome);
+                if (!validatePhoneFormat(normalizedOrgHome)) {
                     record.addError('organization_Phone', invalidPhoneFormat);
                 }
-                else if (validation_isCountryCode(orgAddrCountry) && !is_validPhoneNumber(orgHome, orgAddrCountry)) {
+                else if (validation_isCountryCode(orgAddrCountry) && !is_validPhoneNumber(normalizedOrgHome, orgAddrCountry)) {
                     record.addError('organization_Phone', invalidPhoneNumber);
                 }
             }

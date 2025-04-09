@@ -344,25 +344,28 @@ let uniqueCombinations = new Set();
 
         // Validate orgphone field
         if (!isBlank(orgPhone)) {
-          if (!validatePhoneFormat(orgPhone)) {
+          const normalizedOrgPhone = normalizePhoneNumber(orgPhone);
+          if (!validatePhoneFormat(normalizedOrgPhone)) {
             record.addError('organization_Phone', invalidPhoneFormat);
-          } else if (isCountryCode(orgAddrCountry) && !is_validPhoneNumber(orgPhone, orgAddrCountry as CountryCode)) {
+          } else if (isCountryCode(orgAddrCountry) && !is_validPhoneNumber(normalizedOrgPhone, orgAddrCountry as CountryCode)) {
             record.addError('organization_Phone', invalidPhoneNumber);
           }
         }
 
         if (!isBlank(orgMobile)) {
-          if (!validatePhoneFormat(orgMobile)) {
+          const normalizedOrgMobile = normalizePhoneNumber(orgMobile);
+          if (!validatePhoneFormat(normalizedOrgMobile)) {
             record.addError('organization_Phone', invalidPhoneFormat);
-          } else if (isCountryCode(orgAddrCountry) && !is_validPhoneNumber(orgMobile, orgAddrCountry as CountryCode)) {
+          } else if (isCountryCode(orgAddrCountry) && !is_validPhoneNumber(normalizedOrgMobile, orgAddrCountry as CountryCode)) {
             record.addError('organization_Phone', invalidPhoneNumber);
           }
         }
 
         if (!isBlank(orgHome)) {
-          if (!validatePhoneFormat(orgHome)) {
+          const normalizedOrgHome = normalizePhoneNumber(orgHome);
+          if (!validatePhoneFormat(normalizedOrgHome)) {
             record.addError('organization_Phone', invalidPhoneFormat);
-          } else if (isCountryCode(orgAddrCountry) && !is_validPhoneNumber(orgHome, orgAddrCountry as CountryCode)) {
+          } else if (isCountryCode(orgAddrCountry) && !is_validPhoneNumber(normalizedOrgHome, orgAddrCountry as CountryCode)) {
             record.addError('organization_Phone', invalidPhoneNumber);
           }
         }
